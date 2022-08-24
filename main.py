@@ -24,18 +24,6 @@ dble_bets_1 = 5  # and their bets
 dble_creds_2 = 500  # Intial value for credits for player two
 dble_bets_2 = 5  # and their bets
 
-# dble_play_1_crd_1 = random.randint(1, 11)
-# dble_play_1_crd_2 = random.randint(1, 11)
-# dble_play_1_ttl = (dble_play_1_crd_1 + dble_play_1_crd_2)
-# dble_play_2_crd_1 = random.randint(1, 11)
-# dble_play_2_crd_2 = random.randint(1, 11)
-# dble_play_2_ttl = (dble_play_2_crd_1 + dble_play_2_crd_2)
-dble_crd_1_deal = random.randint(1, 11)
-dble_crd_2_deal = random.randint(1, 11)
-dble_deal_crd_ttl = (dble_crd_1_deal + dble_crd_2_deal)
-dble_crd_hit_1 = random.randint(1, 11)
-dble_crd_hit_2 = random.randint(1, 11)
-
 
 def dble_add_creds_1():
     global dble_creds_1
@@ -164,12 +152,12 @@ def dble_buttons_state_play():
 
 
 def dble_cnfrm_bets():
-    # global dble_play_1_crd_1
-    # global dble_play_1_crd_2
-    # global dble_play_1_ttl
-    # global dble_play_2_crd_1
-    # global dble_play_2_crd_2
-    # global dble_play_2_ttl
+    global dble_play_1_crd_1
+    global dble_play_1_crd_2
+    global dble_play_1_ttl
+    global dble_play_2_crd_1
+    global dble_play_2_crd_2
+    global dble_play_2_ttl
     dble_play_1_crd_1 = random.randint(1, 11)
     dble_play_1_crd_2 = random.randint(1, 11)
     dble_play_1_ttl = (dble_play_1_crd_1 + dble_play_1_crd_2)
@@ -246,6 +234,11 @@ def dble_crd_check():
 
 
 def dble_play_1_v_deal():
+    dble_crd_1_deal = random.randint(1, 11)
+    dble_crd_2_deal = random.randint(1, 11)
+    dble_deal_crd_ttl = (dble_crd_1_deal + dble_crd_2_deal)
+    dble_crd_hit_1 = random.randint(1, 11)
+    dble_crd_hit_2 = random.randint(1, 11)
     print("Dealer cards", dble_crd_1_deal, dble_crd_2_deal, "\n")
     if dble_deal_crd_ttl == 21:
         print("Dealer wins \n")
@@ -272,6 +265,11 @@ def dble_play_1_v_deal():
 
 
 def dble_play_2_v_deal():
+    dble_crd_1_deal = random.randint(1, 11)
+    dble_crd_2_deal = random.randint(1, 11)
+    dble_deal_crd_ttl = (dble_crd_1_deal + dble_crd_2_deal)
+    dble_crd_hit_1 = random.randint(1, 11)
+    dble_crd_hit_2 = random.randint(1, 11)
     print("Dealer cards", dble_crd_1_deal, dble_crd_2_deal, "\n")
     if dble_deal_crd_ttl == 21:
         print("Dealer wins \n")
@@ -279,6 +277,14 @@ def dble_play_2_v_deal():
     if dble_deal_crd_ttl > 21:
         print("Player 2 wins \n")
         dble_add_creds_2()
+    if dble_deal_crd_ttl > dble_play_2_ttl:
+        print("Dealer wins \n")
+        dble_sub_creds_2()
+        dble_bet_add_but_1.config(state=NORMAL)
+        dble_bet_sub_but_1.config(state=NORMAL)
+        dble_bet_add_but_2.config(state=NORMAL)
+        dble_bet_sub_but_2.config(state=NORMAL)
+        dble_confirm_bets.config(state=NORMAL)
     if dble_deal_crd_ttl < dble_play_2_ttl:
         print("Player 2 wins \n")
         dble_add_creds_2()
