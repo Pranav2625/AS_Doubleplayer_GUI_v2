@@ -8,14 +8,14 @@ root.title("Double Player Mode")  # Window title
 dble_frame = Frame(root, width=700, height=500, bg="green")  # Window frame
 dble_frame.grid()
 
-dealer_side = Label(
+dealer_side = Label(    #Dealer's Side,
     dble_frame,
     text="Dealer",
-    font="Times 14 bold",  # Dealer's Side, 
+    font="Times 14 bold", 
     bg="#733f19",
     fg="white",
     padx=330,
-    pady=12)  # of the table
+    pady=12) 
 dealer_side.place(x=-10, y=0)
 
 dble_creds_1 = 500  # Intial value of credits for player one
@@ -23,7 +23,7 @@ dble_bets_1 = 5  # and their bets
 
 dble_creds_2 = 500  # Intial value for credits for player two
 dble_bets_2 = 5  # and their bets
-
+    
 
 def dble_add_creds_1():
     global dble_creds_1
@@ -141,6 +141,12 @@ dble_bet_sub_but_2 = Button(dble_frame,
                             command=dble_bets_sub_2)
 dble_bet_sub_but_2.place(x=580, y=180)
 
+def dble_bet_check():
+  if 4<dble_bets_1<101 and 4<dble_bets_2<101:
+    dble_buttons_state_play()
+  else:
+    print("You cannot have bets below $5 and above $100 \n")
+
 
 def dble_buttons_state_play():
     dble_bet_add_but_1.config(state=DISABLED)
@@ -205,7 +211,7 @@ dble_confirm_bets = Button(dble_frame,
                            text="Confirm bets",
                            bg="orange",
                            bd=1,
-                           command=dble_buttons_state_play)
+                           command=dble_bet_check)
 dble_confirm_bets.place(x=300, y=450)
 
 
