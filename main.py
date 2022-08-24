@@ -3,7 +3,7 @@ from functools import partial
 import random
 
 root = Tk()
-root.title("Multiplayer Mode")  # Window title
+root.title("Double Player Mode")  # Window title
 
 dble_frame = Frame(root, width=700, height=500, bg="green")  # Window frame
 dble_frame.grid()
@@ -237,8 +237,6 @@ def dble_play_1_v_deal():
     dble_crd_1_deal = random.randint(1, 11)
     dble_crd_2_deal = random.randint(1, 11)
     dble_deal_crd_ttl = (dble_crd_1_deal + dble_crd_2_deal)
-    dble_crd_hit_1 = random.randint(1, 11)
-    dble_crd_hit_2 = random.randint(1, 11)
     print("Dealer cards", dble_crd_1_deal, dble_crd_2_deal, "\n")
     if dble_deal_crd_ttl == 21:
         print("Dealer wins \n")
@@ -257,11 +255,18 @@ def dble_play_1_v_deal():
     if dble_deal_crd_ttl < dble_play_1_ttl:
         print("Player 1 wins \n")
         dble_add_creds_1()
-    dble_bet_add_but_1.config(state=NORMAL)
-    dble_bet_sub_but_1.config(state=NORMAL)
-    dble_bet_add_but_2.config(state=NORMAL)
-    dble_bet_sub_but_2.config(state=NORMAL)
-    dble_confirm_bets.config(state=NORMAL)
+        dble_bet_add_but_1.config(state=NORMAL)
+        dble_bet_sub_but_1.config(state=NORMAL)
+        dble_bet_add_but_2.config(state=NORMAL)
+        dble_bet_sub_but_2.config(state=NORMAL)
+        dble_confirm_bets.config(state=NORMAL)
+    if dble_deal_crd_ttl == dble_play_1_ttl:
+          print("Its a draw")
+          dble_bet_add_but_1.config(state=NORMAL)
+          dble_bet_sub_but_1.config(state=NORMAL)
+          dble_bet_add_but_2.config(state=NORMAL)
+          dble_bet_sub_but_2.config(state=NORMAL)
+          dble_confirm_bets.config(state=NORMAL)
 
 
 def dble_play_2_v_deal():
@@ -288,16 +293,24 @@ def dble_play_2_v_deal():
     if dble_deal_crd_ttl < dble_play_2_ttl:
         print("Player 2 wins \n")
         dble_add_creds_2()
-    dble_bet_add_but_1.config(state=NORMAL)
-    dble_bet_sub_but_1.config(state=NORMAL)
-    dble_bet_add_but_2.config(state=NORMAL)
-    dble_bet_sub_but_2.config(state=NORMAL)
-    dble_confirm_bets.config(state=NORMAL)
+        dble_bet_add_but_1.config(state=NORMAL)
+        dble_bet_sub_but_1.config(state=NORMAL)
+        dble_bet_add_but_2.config(state=NORMAL)
+        dble_bet_sub_but_2.config(state=NORMAL)
+        dble_confirm_bets.config(state=NORMAL)
+    if dble_deal_crd_ttl == dble_play_2_ttl:
+        print("Its a draw")
+        dble_bet_add_but_1.config(state=NORMAL)
+        dble_bet_sub_but_1.config(state=NORMAL)
+        dble_bet_add_but_2.config(state=NORMAL)
+        dble_bet_sub_but_2.config(state=NORMAL)
+        dble_confirm_bets.config(state=NORMAL)
 
 
 def dble_hit_1():
     global dble_play_1_ttl
     global dble_crd_hit_1
+    dble_crd_hit_1 = random.randint(1, 11)
     dble_play_1_ttl += dble_crd_hit_1
     print("Player 1 hit card: ", dble_crd_hit_1)
     print(dble_play_1_ttl, "\n")
@@ -365,6 +378,7 @@ dble_double_but_1.place(x=90, y=380)
 def dble_hit_2():
     global dble_play_2_ttl
     global dble_crd_hit_2
+    dble_crd_hit_2 = random.randint(1,11)
     dble_play_2_ttl += dble_crd_hit_2
     print("Player 2 hit card: ", dble_crd_hit_2)
     print(dble_play_2_ttl, "\n")
@@ -414,5 +428,61 @@ dble_double_but_1.config(state=DISABLED)
 dble_hit_but_2.config(state=DISABLED)
 dble_stay_but_2.config(state=DISABLED)
 dble_double_but_2.config(state=DISABLED)
+
+
+dble_rules_but = Button(dble_frame, text="Rules", bg="orange", bd=1)
+dble_rules_but.place(x=580, y=430)
+
+
+def dble_exit():
+    dble_exit_win = Toplevel(root)
+
+    dble_exit_but.config(state=DISABLED)
+
+    def close_dble_exit():  # If either the back button or window is closed
+        dble_exit_but.config(
+            state=NORMAL)  # revert the single player button back to normal
+        sngle_exit_win.destroy()
+
+    dble_exit_win.protocol("WM_DELETE_WINDOW", partial(close_dble_exit))
+
+    dble_exit_frame = Frame(dble_exit_win,
+                             width=200,
+                             height=100,
+                             bg="lawngreen")
+    dble_exit_frame.grid()
+
+    dble_exit_text = Label(dble_exit_frame,
+                            text="Are you sure?",
+                            font="Times 14",
+                            justify=CENTER,
+                            bg="lawngreen")
+    dble_exit_text.place(x=10, y=0)
+
+    def dble_exit_y():
+        sys.exit()
+
+    dble_ext_y_but = Button(dble_exit_frame,
+                             text="Yes",
+                             font="Times 10",
+                             bd=1,
+                             command=dble_exit_y)
+    dble_ext_y_but.place(x=20, y=50)
+
+    dble_ext_n_but = Button(dble_exit_frame,
+                             text="No",
+                             font="Times 10",
+                             bd=1,
+                             command=close_dble_exit)
+    dble_ext_n_but.place(x=130, y=50)
+
+
+dble_exit_but = Button(dble_frame,
+                        text="Exit",
+                        bg="orange",
+                        bd=1,
+                        command=dble_exit)
+dble_exit_but.place(x=589, y=460)
+
 
 root.mainloop()  # Loops the program until stopped/exited
