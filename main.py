@@ -206,7 +206,6 @@ def dble_cnfrm_bets():
         dble_stay_but_1.config(state=NORMAL)
         dble_double_but_1.config(state=NORMAL)
 
-
 dble_confirm_bets = Button(dble_frame, # Create button for confirming both players' bets
                            text="Confirm bets",
                            bg="orange",
@@ -219,6 +218,7 @@ def dble_crd_check():  # Check which players takes on the dealer
     dble_hit_but_2.config(state=DISABLED)
     dble_stay_but_2.config(state=DISABLED)
     dble_double_but_2.config(state=DISABLED)
+    cnfrm_crds_but.config(state=DISABLED)
     global dble_play_1_ttl
     global dble_play_2_ttl
     if dble_play_1_ttl > dble_play_2_ttl:
@@ -324,10 +324,15 @@ def dble_hit_1():
     if dble_play_1_ttl == 21:
         print("Player 1 wins")
         dble_add_creds_1()
+        cnfrm_crds_but.config(state=DISABLED)
     if dble_play_1_ttl > 21:
         print("Player 1 is busted")
         dble_sub_creds_1()
+        dble_hit_but_2.config(state=DISABLED)
+        dble_stay_but_2.config(state=DISABLED)
+        dble_double_but_2.config(state=DISABLED)
         dble_play_2_v_deal()
+        cnfrm_crds_but.config(state=DISABLED)
     if dble_play_1_ttl < 21:
         print("Play on \n")
         dble_hit_but_1.config(state=DISABLED)
@@ -349,7 +354,7 @@ def dble_double_1():
     dble_stay_but_2.config(state=NORMAL)
     dble_double_but_2.config(state=NORMAL)
 
-# No action for P1
+# Stay action for P1
 def dble_stay_1():
     print("Play on \n")
     dble_hit_but_1.config(state=DISABLED)
@@ -360,21 +365,21 @@ def dble_stay_1():
     dble_double_but_2.config(state=NORMAL)
 
 
-dble_hit_but_1 = Button(dble_frame,
+dble_hit_but_1 = Button(dble_frame, # P1 Hit button
                         text="Hit",
                         bg="white",
                         bd=1,
                         command=dble_hit_1)
 dble_hit_but_1.place(x=62, y=340)
 
-dble_stay_but_1 = Button(dble_frame,
+dble_stay_but_1 = Button(dble_frame, # P1 Stay button
                          text="Stay",
                          bg="white",
                          bd=1,
                          command=dble_stay_1)
 dble_stay_but_1.place(x=20, y=380)
 
-dble_double_but_1 = Button(dble_frame,
+dble_double_but_1 = Button(dble_frame, # P1 Double Button
                            text="Double",
                            bg="white",
                            bd=1,
@@ -382,7 +387,7 @@ dble_double_but_1 = Button(dble_frame,
 dble_double_but_1.place(x=90, y=380)
 
 
-def dble_hit_2():
+def dble_hit_2():  # P2 hit function
     global dble_play_2_ttl
     global dble_crd_hit_2
     dble_crd_hit_2 = random.randint(1,11)
@@ -392,41 +397,59 @@ def dble_hit_2():
     if dble_play_2_ttl == 21:
         print("Player 2 wins")
         dble_add_creds_2()
+        cnfrm_crds_but.config(state=DISABLED)
     if dble_play_2_ttl > 21:
         print("Player 2 is busted")
         dble_sub_creds_2()
+        dble_hit_but_2.config(state=DISABLED)
+        dble_stay_but_2.config(state=DISABLED)
+        dble_double_but_2.config(state=DISABLED)
+        cnfrm_crds_but.config(state=DISABLED)
         dble_play_1_v_deal()
     if dble_play_2_ttl < 21:
         print("Play on \n")
+        dble_hit_but_1.config(state=NORMAL)
+        dble_stay_but_1.config(state=NORMAL)
+        dble_double_but_1.config(state=NORMAL)
+        cnfrm_crds_but.config(state=NORMAL)
+      
 
 
-def dble_double_2():
+def dble_double_2():  # P2 double bets function
     global dble_bets_2
     dble_bets_2 *= 2
     dble_bets_2_counter.set("Bets: ${:.2f}".format(dble_bets_2))
+    dble_hit_but_1.config(state=NORMAL)
+    dble_stay_but_1.config(state=NORMAL)
+    dble_double_but_1.config(state=NORMAL)
+    cnfrm_crds_but.config(state=NORMAL)
 
-def dble_stay_2():
+def dble_stay_2():  # P2 stay function
     print("Play on \n")
     dble_hit_but_2.config(state=DISABLED)
     dble_stay_but_2.config(state=DISABLED)
     dble_double_but_2.config(state=DISABLED)
+    dble_hit_but_1.config(state=NORMAL)
+    dble_stay_but_1.config(state=NORMAL)
+    dble_double_but_1.config(state=NORMAL)
+    cnfrm_crds_but.config(state=NORMAL)
 
 
-dble_hit_but_2 = Button(dble_frame,
+dble_hit_but_2 = Button(dble_frame,  # P2 hit button
                         text="Hit",
                         bg="white",
                         bd=1,
                         command=dble_hit_2)
 dble_hit_but_2.place(x=583, y=340)
 
-dble_stay_but_2 = Button(dble_frame,
+dble_stay_but_2 = Button(dble_frame,  # P2 stay button
                          text="Stay",
                          bg="white",
                          bd=1,
                          command=dble_stay_2)
 dble_stay_but_2.place(x=540, y=380)
 
-dble_double_but_2 = Button(dble_frame,
+dble_double_but_2 = Button(dble_frame,  # P2 double bets button
                            text="Double",
                            bg="white",
                            bd=1,
@@ -437,19 +460,20 @@ dble_double_but_2.place(x=610, y=380)
 cnfrm_crds_but = Button(root, text="Confirm Cards", bg="orange", bd=1, command=dble_crd_check)
 cnfrm_crds_but.place(x=295, y=400)
 
-dble_hit_but_1.config(state=DISABLED)
+dble_hit_but_1.config(state=DISABLED)  # Disables card action buttons at start
 dble_stay_but_1.config(state=DISABLED)
 dble_double_but_1.config(state=DISABLED)
 dble_hit_but_2.config(state=DISABLED)
 dble_stay_but_2.config(state=DISABLED)
 dble_double_but_2.config(state=DISABLED)
+cnfrm_crds_but.config(state=DISABLED)
 
 
-dble_rules_but = Button(dble_frame, text="Rules", bg="orange", bd=1)
+dble_rules_but = Button(dble_frame, text="Rules", bg="orange", bd=1)  # Rules buttons
 dble_rules_but.place(x=580, y=430)
 
 
-def dble_exit():
+def dble_exit():  # Exit button
     dble_exit_win = Toplevel(root)
 
     dble_exit_but.config(state=DISABLED)
@@ -474,7 +498,7 @@ def dble_exit():
                             bg="lawngreen")
     dble_exit_text.place(x=10, y=0)
 
-    def dble_exit_y():
+    def dble_exit_y():  # Exits programn
         sys.exit()
 
     dble_ext_y_but = Button(dble_exit_frame,
@@ -492,7 +516,7 @@ def dble_exit():
     dble_ext_n_but.place(x=130, y=50)
 
 
-dble_exit_but = Button(dble_frame,
+dble_exit_but = Button(dble_frame,  # Exit button
                         text="Exit",
                         bg="orange",
                         bd=1,
